@@ -1,6 +1,9 @@
-def main():
-    print("Hello from python-api-azure-functions!")
+# main.py
+import random
+from fastapi import FastAPI
 
+app = FastAPI()
 
-if __name__ == "__main__":
-    main()
+@app.get("/v1/generate_name")
+def generate_name():
+    return {"name": random.choice(["Minnie", "Margaret", "Myrtle"])}
