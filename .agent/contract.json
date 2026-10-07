@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "project": "blogcode",
+  "purpose": "Small independent executable examples accompanying blog posts.",
+  "actions": [
+    {
+      "id": "verify",
+      "intent": "Execute the complete configured local gate before publishing this repository.",
+      "argv": [
+        "lefthook",
+        "run",
+        "pre-push",
+        "--force"
+      ],
+      "effects": [
+        "read",
+        "local_write",
+        "process"
+      ],
+      "acceptance_scope": "fixture",
+      "inputs": [
+        "lefthook.yml",
+        "python-api-azure-functions/tests/test_api.py",
+        "python-api-azure-functions/main.py"
+      ],
+      "requires": [],
+      "recovery": "Read the failed owner job; repair its source or declared prerequisite, then rerun the full local gate. Fixture acceptance does not authorize cloud/device deployment."
+    },
+    {
+      "id": "verify-lesson",
+      "intent": "Re-evaluate the retained domain decision using its owning regression/contract.",
+      "argv": [
+        "uv",
+        "run",
+        "--locked",
+        "--directory",
+        "python-api-azure-functions",
+        "pytest"
+      ],
+      "effects": [
+        "read",
+        "local_write",
+        "process"
+      ],
+      "acceptance_scope": "fixture",
+      "inputs": [
+        "python-api-azure-functions/tests/test_api.py",
+        "python-api-azure-functions/main.py"
+      ],
+      "requires": [],
+      "recovery": "Inspect the named source/test and reproduce the failing synthetic case before reusing this lesson."
+    }
+  ],
+  "learning": [
+    {
+      "id": "owner-invariant",
+      "when": [
+        "api",
+        "example",
+        "deployment"
+      ],
+      "summary": "The API example owns its Python environment and FastAPI fixtures; local request acceptance does not prove the Azure Function host deployment.",
+      "owner": "python-api-azure-functions/tests/test_api.py",
+      "basis": [
+        {
+          "path": "python-api-azure-functions/tests/test_api.py",
+          "sha256": "71e899d70fca813335eef23fa787fe771ca6ad43f3951b4dd90a4f5837dd7521"
+        },
+        {
+          "path": "python-api-azure-functions/main.py",
+          "sha256": "2c48c70937596666807283ae31606a78b8ad6ac0c7c721c84b256af6d16a4dad"
+        }
+      ],
+      "verify_action": "verify-lesson"
+    }
+  ]
+}
