@@ -40,7 +40,8 @@
       "effects": [
         "read",
         "local_write",
-        "process"
+        "process",
+        "network"
       ],
       "acceptance_scope": "fixture",
       "inputs": [
