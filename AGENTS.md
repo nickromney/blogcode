@@ -1,11 +1,16 @@
 # blogcode agent guide
 
-For system ownership, action effects, verification scope or a new agent task,
-read [the operating model](docs/agent-system.md). Detailed product plans
-remain at the linked owners; historical observations retain their dates.
+Small independent code examples for blog posts. Each example is its own package.
 
-The source-owned `.agent/contract.json` declares existing local verification actions,
-their effects and acceptance scope, and lessons bound to exact source/test bytes.
-Run the full local gate with `lefthook run pre-push --force`; a plain manual run
-can select no files. No GitHub Actions workflow is active in this checkout. Local
-fixture acceptance does not establish a live cloud, device or deployment state.
+## Verify
+
+- Pre-push gate: `lefthook run pre-push --force`. It runs
+  `uv run --locked --directory python-api-azure-functions pytest`. A plain
+  manual run can select no files. No GitHub Actions workflow is active.
+- Dependency sync can download packages if they are not already present.
+
+## Hazards
+
+- Local pytest runs use FastAPI test clients. They do not prove Azure Functions
+  host packaging or live invocation. Deployment is a separate step with a named
+  target and dated response check.
