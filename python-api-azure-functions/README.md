@@ -12,5 +12,11 @@ uv run fastapi dev main.py
 curl http://127.0.0.1:8000/v1/generate_name
 ```
 
+For an isolated local HTTP verification cycle, run `make verify-dry-run`,
+`make verify-test`, then `make verify`. The harness uses the existing `.venv`
+only when its FastAPI and Uvicorn versions match `uv.lock`; it does not install
+packages or contact Azure. It saves the observed JSON responses under the
+verify-kit evidence path and stops its own server during cleanup.
+
 The TestClient contract exercises JSON shape, supported values and a missing
 route without starting a network listener or calling an Azure endpoint.
